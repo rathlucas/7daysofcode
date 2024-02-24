@@ -9,15 +9,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@RestController
+@Controller
 @Tag(name = "Test Controller")
-@RequestMapping("/api/v1/movie")
+@RequestMapping("/movie")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestController {
 
@@ -25,10 +26,12 @@ public class TestController {
 
     @GetMapping
     @Operation(description = "Get Movie by ID", responses = {
-            @ApiResponse(responseCode = "200", description = "Successfully got a movie", content =
+            @ApiResponse(responseCode = "200", description = "Successfully got a movie JSON data", content =
             @Content(mediaType = "application/json", schema = @Schema(contentSchema = String.class)))
     })
-    public Mono<String> getMovieById() {
-        return moviePort.getMovie("");
+    public Mono<String> getMovieById(final Model model) {
+        Mono<String> movie = moviePort.getMovie("");
+        model.addAttribute("movie", movie);
+        return Mono.just("index");
     }
 }
