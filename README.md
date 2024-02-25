@@ -11,3 +11,9 @@ movies.integration.api.token=<TOKEN_DA_API>
 
 ## Documentação de API
  - É possível acessar o Swagger por meio da rota `/swagger-ui.html`
+
+## Integrações e Tecnologias Utilizadas:
+ - API de filmes OMDB (Open Movie Database): https://www.omdbapi.com/
+ - Compilação Nativa com GraalVM
+ - Padrão reativo com Non-blocking IO utilizando Webflux
+ - WebClient para requisições HTTP
