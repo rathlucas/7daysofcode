@@ -1,4 +1,4 @@
-package dev.lucin.sevendaysofcode.http.controllers;
+package dev.lucin.sevendaysofcode.controllers;
 
 import dev.lucin.sevendaysofcode.domain.ports.MoviePort;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 @Tag(name = "Test Controller")
 @RequestMapping("/movie")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class TestController {
+public class MovieController {
 
     private final MoviePort moviePort;
 
@@ -30,8 +30,10 @@ public class TestController {
             @Content(mediaType = "application/json", schema = @Schema(contentSchema = String.class)))
     })
     public Mono<String> getMovieById(final Model model) {
-        Mono<String> movie = moviePort.getMovie("");
-        model.addAttribute("movie", movie);
-        return Mono.just("index");
+
+        return moviePort.getMovie("").map(movie -> {
+            model.addAttribute("movie", movie);
+            return "index";
+        });
     }
 }
